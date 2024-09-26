@@ -37,9 +37,16 @@ import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun DatePickerDialog(
+    onDismissRequest: () -> Unit = {},
+    dialogProperties: DialogProperties = DialogProperties(
+        dismissOnBackPress = false,
+        dismissOnClickOutside = false,
+        usePlatformDefaultWidth = false
+    ),
     initialDate: LocalDate = Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault()).date,
     title: @Composable () -> Unit,
+    divider: @Composable () -> Unit,
     subtitle: @Composable (RowScope.(
         minusMonthAction: () -> Unit,
         plusMonthAction: () -> Unit
@@ -90,12 +97,10 @@ fun DatePickerDialog(
     val selectedDateIndicatorColor = MaterialTheme.colors.secondary.copy(alpha = .5f)
 
     Dialog(
-        onDismissRequest = {},
-        properties = DialogProperties(
-            dismissOnClickOutside = false,
-            dismissOnBackPress = false,
-            usePlatformDefaultWidth = false
-        )
+        onDismissRequest = {
+            onDismissRequest()
+        },
+        properties = dialogProperties
     ) {
         Card(
             modifier = modifier.fillMaxWidth()
@@ -105,9 +110,7 @@ fun DatePickerDialog(
             ) {
                 title()
 
-                Divider(
-                    modifier = Modifier.fillMaxWidth()
-                )
+                divider()
 
                 Row {
                     subtitle(
