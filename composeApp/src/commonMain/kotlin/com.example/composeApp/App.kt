@@ -13,8 +13,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.composeApp.demo.DatePickerDialogDemo
+import com.example.composeApp.demo.TimePickerDialogDemo
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
 import kotlinx.datetime.toLocalDateTime
@@ -28,9 +30,19 @@ fun App() {
             mutableStateOf(false)
         }
 
+        var showTimePickerDialog by remember {
+            mutableStateOf(false)
+        }
+
         var currentDate by remember {
             mutableStateOf(
                 Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+            )
+        }
+
+        var currentTime by remember {
+            mutableStateOf(
+                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
             )
         }
 
@@ -49,6 +61,18 @@ fun App() {
                         showDatePickerDialog = true
                     }
                 )
+
+                OutlinedTextField(
+                    onValueChange = {
+
+                    },
+                    value = currentTime.format(LocalTime.Formats.ISO),
+                    readOnly = true,
+                    enabled = false,
+                    modifier = Modifier.clickable {
+                        showTimePickerDialog = true
+                    }
+                )
             }
 
             if (showDatePickerDialog) {
@@ -60,6 +84,19 @@ fun App() {
                     },
                     dismissAction = {
                         showDatePickerDialog = false
+                    }
+                )
+            }
+
+            if (showTimePickerDialog) {
+                TimePickerDialogDemo(
+                    currentTime = currentTime,
+                    confirmAction = {
+                        currentTime = it
+                        showTimePickerDialog = false
+                    },
+                    dismissAction = {
+                        showTimePickerDialog = false
                     }
                 )
             }
