@@ -1,10 +1,17 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    id("maven-publish")
 }
+
+val localProperties = Properties()
+localProperties.load(project.rootProject.file("local.properties").inputStream())
+val usr: String = localProperties.getProperty("gpr.usr")
+val key: String = localProperties.getProperty("gpr.key")
 
 kotlin {
 
@@ -23,6 +30,19 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
+        }
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/youxiang8727/PrettyKmmComposable")
+                credentials {
+                    username = usr
+                    password = key
+                }
+            }
         }
     }
 }
