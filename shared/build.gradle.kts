@@ -13,6 +13,25 @@ localProperties.load(project.rootProject.file("local.properties").inputStream())
 val usr: String = localProperties.getProperty("gpr.usr")
 val key: String = localProperties.getProperty("gpr.key")
 
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/youxiang8727/PrettyKmmComposable")
+            credentials {
+                username = usr
+                password = key
+            }
+        }
+    }
+
+    publications {
+        register<MavenPublication>("gpr") {
+            from(components["kotlin"])
+        }
+    }
+}
+
 kotlin {
 
     androidTarget {
@@ -30,19 +49,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
-        }
-    }
-
-    publishing {
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/youxiang8727/PrettyKmmComposable")
-                credentials {
-                    username = usr
-                    password = key
-                }
-            }
         }
     }
 }
