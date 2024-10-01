@@ -44,9 +44,29 @@ kotlin {
         }
     }
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    iosX64 {
+        binaries {
+            framework {
+                baseName = "PrettyKmmComposable"
+            }
+        }
+    }
+
+    iosArm64 {
+        binaries {
+            framework {
+                baseName = "PrettyKmmComposable"
+            }
+        }
+    }
+
+    iosSimulatorArm64 {
+        binaries {
+            framework {
+                baseName = "PrettyKmmComposable"
+            }
+        }
+    }
 
 
     sourceSets {
