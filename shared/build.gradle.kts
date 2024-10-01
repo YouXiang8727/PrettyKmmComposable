@@ -28,6 +28,9 @@ publishing {
     publications {
         register<MavenPublication>("gpr") {
             from(components["kotlin"])
+            groupId = "com.youxiang8727"
+            artifactId = "pretty-kmm-composable"
+            version = "1.0.0-beta"
         }
     }
 }
