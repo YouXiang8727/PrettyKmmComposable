@@ -8,10 +8,10 @@ plugins {
     id("maven-publish")
 }
 
-//val localProperties = Properties()
-//localProperties.load(project.rootProject.file("local.properties").inputStream())
-//val usr: String = localProperties.getProperty("gpr.usr")
-//val key: String = localProperties.getProperty("gpr.key")
+val localProperties = Properties()
+localProperties.load(project.rootProject.file("local.properties").inputStream())
+val usr: String = localProperties.getProperty("gpr.usr")
+val key: String = localProperties.getProperty("gpr.key")
 
 publishing {
     repositories {
@@ -19,8 +19,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/youxiang8727/PrettyKmmComposable")
             credentials {
-                username = System.getenv("USER_NAME")
-                password = System.getenv("USER_KEY")
+                username = usr
+                password = key
             }
         }
     }
