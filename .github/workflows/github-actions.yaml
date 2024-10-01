@@ -32,7 +32,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Get local.properties from secrets
-        uses: echo "${{secrets.LOCAL_PROPERTIES }}" > $GITHUB_WORKSPACE/local.properties
+        run: echo "${{secrets.LOCAL_PROPERTIES }}" > $GITHUB_WORKSPACE/local.properties
       - name: Publish to GitHub Packages
         uses: gradle/gradle-build-action@v2
         with:
