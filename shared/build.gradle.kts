@@ -42,29 +42,17 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+        publishLibraryVariants("release", "debug")
     }
 
-    iosX64 {
-        binaries {
-            framework {
-                baseName = "PrettyKmmComposable"
-            }
-        }
-    }
-
-    iosArm64 {
-        binaries {
-            framework {
-                baseName = "PrettyKmmComposable"
-            }
-        }
-    }
-
-    iosSimulatorArm64 {
-        binaries {
-            framework {
-                baseName = "PrettyKmmComposable"
-            }
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "pretty-kmm-composable"
+            isStatic = true
         }
     }
 
