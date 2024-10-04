@@ -1,5 +1,7 @@
+import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 import java.util.Properties
 
 plugins {
@@ -58,7 +60,6 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "pretty_kmm_composable" // 使用下划线以确保一致性
             isStatic = true
         }
     }
