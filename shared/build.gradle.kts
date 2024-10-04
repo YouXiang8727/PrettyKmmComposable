@@ -1,7 +1,5 @@
-import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 import java.util.Properties
 
 plugins {
@@ -14,6 +12,47 @@ val localProperties = Properties()
 localProperties.load(project.rootProject.file("local.properties").inputStream())
 val usr: String = localProperties.getProperty("gpr.usr")
 val key: String = localProperties.getProperty("gpr.key")
+
+kotlin {
+
+    androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+        publishLibraryVariants("release", "debug")
+    }
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "pretty_kmm_composable"
+            isStatic = true
+        }
+    }
+
+
+    sourceSets {
+        commonMain.dependencies {
+            // put your Multiplatform dependencies here
+        }
+    }
+}
+
+android {
+    namespace = "com.example.shared"
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    defaultConfig {
+        minSdk = libs.versions.android.minSdk.get().toInt()
+    }
+}
 
 publishing {
     repositories {
@@ -41,45 +80,5 @@ publishing {
                 }
             }
         }
-    }
-}
-
-kotlin {
-
-    androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-        publishLibraryVariants("release", "debug")
-    }
-
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            isStatic = true
-        }
-    }
-
-
-    sourceSets {
-        commonMain.dependencies {
-            // put your Multiplatform dependencies here
-        }
-    }
-}
-
-android {
-    namespace = "com.example.shared"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
     }
 }
