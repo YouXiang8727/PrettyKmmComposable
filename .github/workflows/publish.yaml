@@ -7,7 +7,7 @@ on:
   
 jobs:          
   publish:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest  # 使用 macOS 來構建 iOS 相關的部分
 
     steps:
       - uses: actions/checkout@v3
@@ -20,6 +20,8 @@ jobs:
         run: echo "${{ secrets.LOCAL_PROPERTIES }}" > $GITHUB_WORKSPACE/local.properties
       - name: Build the project
         run: ./gradlew build
+      - name: Build iOS frameworks
+        run: ./gradlew :shared:assembleReleaseFrameworkIosArm64 :shared:assembleReleaseFrameworkIosSimulatorArm64 :shared:assembleReleaseFrameworkIosX64
       - name: Publish to GitHub Packages
         uses: gradle/gradle-build-action@v2
         with:
