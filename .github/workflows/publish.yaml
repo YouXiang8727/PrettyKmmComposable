@@ -20,8 +20,13 @@ jobs:
         run: echo "${{ secrets.LOCAL_PROPERTIES }}" > $GITHUB_WORKSPACE/local.properties
       - name: Build the project
         run: ./gradlew build
-      - name: Build iOS frameworks
-        run: ./gradlew :shared:assembleReleaseFrameworkIosArm64 :shared:assembleReleaseFrameworkIosSimulatorArm64 :shared:assembleReleaseFrameworkIosX64
+      - name: Build Android and iOS frameworks
+        run: |
+          ./gradlew :shared:assembleRelease
+          ./gradlew :shared:linkReleaseFrameworkIosArm64 \
+                    :shared:linkReleaseFrameworkIosSimulatorArm64 \
+                    :shared:linkReleaseFrameworkIosX64
+                    
       - name: Publish to GitHub Packages
         uses: gradle/gradle-build-action@v2
         with:
