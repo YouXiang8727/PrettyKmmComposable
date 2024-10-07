@@ -102,6 +102,11 @@ publishing {
     }
 }
 
+// 將 publish 任務依賴於 bundle 任務
+tasks.withType<PublishToMavenRepository>().configureEach {
+    dependsOn("bundleReleaseAar", "bundleDebugAar")
+}
+
 fun Project.createZipFrameworkTask(file: File, buildType: NativeBuildType, target: KotlinNativeTarget): Zip {
     return tasks.create<Zip>("zip${file.name}_${target.name}_${buildType.name}") {
         from(file)
