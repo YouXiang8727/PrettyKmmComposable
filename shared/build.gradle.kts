@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import java.util.Properties
@@ -16,6 +18,10 @@ val key: String = localProperties.getProperty("gpr.key")
 kotlin {
 
     androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
         publishLibraryVariants("release", "debug")
     }
 
@@ -42,6 +48,10 @@ kotlin {
 android {
     namespace = "com.youxiang.pretty_kmm_composable"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
