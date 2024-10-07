@@ -55,6 +55,14 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+    buildTypes {
+        getByName("debug") {
+            // 可以在这里添加其他调试配置
+        }
+        getByName("release") {
+            // 可以在这里添加其他发布配置
+        }
+    }
 }
 
 publishing {
