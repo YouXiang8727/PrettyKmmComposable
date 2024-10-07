@@ -45,7 +45,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.example.shared"
+    namespace = "com.youxiang.pretty_kmm_composable"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -84,6 +84,18 @@ publishing {
                         extension = "zip"
                         this.classifier = classifier
                     }
+                }
+            }
+
+            // 發佈 Android AAR
+            afterEvaluate {
+                artifact(tasks.getByName("bundleReleaseAar").outputs.files.singleFile) {
+                    classifier = "release"
+                    extension = "aar"
+                }
+                artifact(tasks.getByName("bundleDebugAar").outputs.files.singleFile) {
+                    classifier = "debug"
+                    extension = "aar"
                 }
             }
         }
