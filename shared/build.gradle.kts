@@ -78,7 +78,7 @@ publishing {
             // 將 iOS 平台的 framework 添加為 artifact
             kotlin.targets.withType(KotlinNativeTarget::class.java).configureEach {
                 binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
-                    val classifier = this.target.konanTarget.name
+                    val classifier = "${this.target.name}_${this.buildType.name}"
                     val zipFileTask = createZipFrameworkTask(this.outputFile, this.buildType, this.target)
                     artifact(zipFileTask) {
                         extension = "zip"
