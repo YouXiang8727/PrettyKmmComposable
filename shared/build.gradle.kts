@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 import java.util.Properties
 
 plugins {
@@ -74,11 +76,22 @@ publishing {
             version = "1.0.0"
 
             // 將 iOS 平台的 framework 添加為 artifact
-            kotlin.targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java).configureEach {
+            kotlin.targets.withType(KotlinNativeTarget::class.java).configureEach {
                 binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
-                    artifact(this.outputFile)
+                    val zipFileTask = createZipFrameworkTask(this.outputFile, this.buildType, this.target)
+                    artifact(zipFileTask) {
+                        extension = "zip"
+                    }
                 }
             }
         }
+    }
+}
+
+fun Project.createZipFrameworkTask(file: File, buildType: NativeBuildType, target: KotlinNativeTarget): Zip {
+    return tasks.create<Zip>("zip${file.name}_${target.name}_${buildType.name}") {
+        from(file)
+        archiveFileName.set("${file.name}.zip") // 設置壓縮檔名
+        destinationDirectory.set(file.parentFile)
     }
 }
