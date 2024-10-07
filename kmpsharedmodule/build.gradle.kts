@@ -15,6 +15,7 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+        publishLibraryVariantsGroupedByFlavor = true
     }
 
     iosX64()
