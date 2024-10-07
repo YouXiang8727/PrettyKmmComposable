@@ -1,3 +1,4 @@
+import com.android.build.api.attributes.BuildTypeAttr
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -22,7 +23,11 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release", "debug").apply {
+            attributes {
+                attribute(BuildTypeAttr.ATTRIBUTE, project.objects.named(BuildTypeAttr::class.java, name))
+            }
+        }
     }
 
     listOf(
@@ -84,6 +89,9 @@ publishing {
                     artifact(zipFileTask) {
                         extension = "zip"
                         this.classifier = classifier
+                        attributes {
+                            attribute(BuildTypeAttr.ATTRIBUTE, project.objects.named(BuildTypeAttr::class.java, buildType.name))
+                        }
                     }
                 }
             }
