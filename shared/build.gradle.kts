@@ -49,8 +49,8 @@ android {
     namespace = "com.youxiang.pretty_kmm_composable"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
