@@ -33,6 +33,7 @@ kotlin {
         it.binaries.framework {
             baseName = "pretty_kmm_composable"
             isStatic = true
+            version = "1.0.0"
         }
     }
 
